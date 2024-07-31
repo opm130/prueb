@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YOLO Detection</title>
+</head>
+<body>
+    <h1>Upload an Image for YOLO Detection</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="image" name="image" accept="image/*">
+        <input type="submit" value="Upload">
+    </form>
+    <div id="result">
+        <img id="resultImage" src="" alt="Result Image" style="display: none; max-width: 100%;">
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = function(event) {
+            event.preventDefault();
+
+            var formData = new FormData();
+            formData.append("image", document.getElementById("image").files[0]);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const img = document.getElementById("resultImage");
+                img.src = url;
+                img.style.display = 'block';
+            });
+        };
+    </script>
+</body>
+</html>
