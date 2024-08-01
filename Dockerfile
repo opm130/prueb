@@ -12,6 +12,12 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Install dependencies
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
