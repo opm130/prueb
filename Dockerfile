@@ -1,33 +1,30 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9-buster
+# Use the official Debian image from the Docker Hub
+FROM debian:buster-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Install Python
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    ln -s /usr/bin/python3 /usr/bin/python
+
 # Set the working directory
 WORKDIR /app
 
-# Update and install system dependencies
+# Install system dependencies
 RUN apt-get update && \
-    apt-get -y upgrade && \
+    apt-get install -y --no-install-recommends \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgstreamer1.0-0 \
+    libgstreamer-plugins-base1.0-0 \
+    libgstreamer-plugins-good1.0-0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Check the status of the repositories and install required libraries
-RUN apt-get update && \
-    apt-cache search libgstreamer-plugins-good1.0-0 && \
-    apt-get install -y --no-install-recommends libglib2.0-0 || { echo 'Failed to install libglib2.0-0' ; exit 1; }
-
-RUN apt-get update && apt-get install -y --no-install-recommends libsm6 || { echo 'Failed to install libsm6' ; exit 1; }
-RUN apt-get update && apt-get install -y --no-install-recommends libxext6 || { echo 'Failed to install libxext6' ; exit 1; }
-RUN apt-get update && apt-get install -y --no-install-recommends libxrender-dev || { echo 'Failed to install libxrender-dev' ; exit 1; }
-RUN apt-get update && apt-get install -y --no-install-recommends libgstreamer1.0-0 || { echo 'Failed to install libgstreamer1.0-0' ; exit 1; }
-RUN apt-get update && apt-get install -y --no-install-recommends libgstreamer-plugins-base1.0-0 || { echo 'Failed to install libgstreamer-plugins-base1.0-0' ; exit 1; }
-RUN apt-get update && apt-get install -y --no-install-recommends libgstreamer-plugins-good1.0-0 || { echo 'Failed to install libgstreamer-plugins-good1.0-0' ; exit 1; }
-
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file
 COPY requirements.txt /app/
@@ -44,4 +41,3 @@ EXPOSE 5000
 
 # Run the application
 CMD ["python", "app.py"]
-
