@@ -22,15 +22,18 @@ RUN apt-get install -y --no-install-recommends \
     libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
     wget \
+    meson \
+    ninja-build \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Compile and install GStreamer
 RUN wget https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz && \
     tar -xvf gstreamer-1.18.4.tar.xz && \
     cd gstreamer-1.18.4 && \
-    ./configure && \
-    make && \
-    make install
+    meson build && \
+    cd build && \
+    ninja && \
+    ninja install
 
 # Copy the requirements file
 COPY requirements.txt /app/
