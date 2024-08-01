@@ -18,7 +18,7 @@ RUN apt-get install -y --no-install-recommends libxext6 || { echo 'Failed to ins
 RUN apt-get install -y --no-install-recommends libxrender-dev || { echo 'Failed to install libxrender-dev' ; exit 1; }
 RUN apt-get install -y --no-install-recommends libgstreamer1.0-0 || { echo 'Failed to install libgstreamer1.0-0' ; exit 1; }
 RUN apt-get install -y --no-install-recommends libgstreamer-plugins-base1.0-0 || { echo 'Failed to install libgstreamer-plugins-base1.0-0' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libgstreamer-plugins-good1.0-0 || { echo 'Failed to install libgstreamer-plugins-good1.0-0' ; exit 1; }
+RUN apt-get install -y --no-install-recommends libgstreamer-plugins-good1.0-dev || { echo 'Failed to install libgstreamer-plugins-good1.0-dev' ; exit 1; }
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
