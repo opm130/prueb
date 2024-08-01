@@ -11,14 +11,25 @@ WORKDIR /app
 # Update and upgrade the base image
 RUN apt-get update && apt-get -y upgrade
 
-# Install required libraries separately with debugging
-RUN apt-get install -y --no-install-recommends libglib2.0-0 || { echo 'Failed to install libglib2.0-0' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libsm6 || { echo 'Failed to install libsm6' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libxext6 || { echo 'Failed to install libxext6' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libxrender-dev || { echo 'Failed to install libxrender-dev' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libgstreamer1.0-0 || { echo 'Failed to install libgstreamer1.0-0' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libgstreamer-plugins-base1.0-0 || { echo 'Failed to install libgstreamer-plugins-base1.0-0' ; exit 1; }
-RUN apt-get install -y --no-install-recommends libgstreamer-plugins-good1.0-dev || { echo 'Failed to install libgstreamer-plugins-good1.0-dev' ; exit 1; }
+# Install build dependencies and GStreamer
+RUN apt-get install -y --no-install-recommends \
+    build-essential \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    libglib2.0-dev \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    || { echo 'Failed to install build dependencies' ; exit 1; }
+
+# Compile and install GStreamer
+RUN wget https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz && \
+    tar -xvf gstreamer-1.18.4.tar.xz && \
+    cd gstreamer-1.18.4 && \
+    ./configure && \
+    make && \
+    make install
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
