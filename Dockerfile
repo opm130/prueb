@@ -11,7 +11,7 @@ WORKDIR /app
 # Update and upgrade the base image
 RUN apt-get update && apt-get -y upgrade
 
-# Install build dependencies and GStreamer
+# Install build dependencies and utilities
 RUN apt-get install -y --no-install-recommends \
     build-essential \
     autoconf \
@@ -21,7 +21,8 @@ RUN apt-get install -y --no-install-recommends \
     libglib2.0-dev \
     libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
-    || { echo 'Failed to install build dependencies' ; exit 1; }
+    wget \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Compile and install GStreamer
 RUN wget https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz && \
@@ -30,9 +31,6 @@ RUN wget https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz
     ./configure && \
     make && \
     make install
-
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file
 COPY requirements.txt /app/
