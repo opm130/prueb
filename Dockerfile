@@ -24,6 +24,7 @@ RUN apt-get install -y --no-install-recommends \
     wget \
     meson \
     ninja-build \
+    flex \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Compile and install GStreamer
@@ -50,3 +51,4 @@ EXPOSE 5000
 
 # Run the application
 CMD ["python", "app.py"]
+
