@@ -9,10 +9,16 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Update and install system dependencies
-RUN apt-get update && apt-get -y upgrade && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install required libraries separately with debugging
-RUN apt-get update && apt-get install -y --no-install-recommends libglib2.0-0 || { echo 'Failed to install libglib2.0-0' ; exit 1; }
+# Check the status of the repositories and install required libraries
+RUN apt-get update && \
+    apt-cache search libgstreamer-plugins-good1.0-0 && \
+    apt-get install -y --no-install-recommends libglib2.0-0 || { echo 'Failed to install libglib2.0-0' ; exit 1; }
+
 RUN apt-get update && apt-get install -y --no-install-recommends libsm6 || { echo 'Failed to install libsm6' ; exit 1; }
 RUN apt-get update && apt-get install -y --no-install-recommends libxext6 || { echo 'Failed to install libxext6' ; exit 1; }
 RUN apt-get update && apt-get install -y --no-install-recommends libxrender-dev || { echo 'Failed to install libxrender-dev' ; exit 1; }
