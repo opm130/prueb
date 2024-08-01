@@ -26,6 +26,10 @@ RUN apt-get install -y --no-install-recommends \
     ninja-build \
     flex \
     bison \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgl1-mesa-glx \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Compile and install GStreamer
@@ -36,6 +40,9 @@ RUN wget https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz
     cd build && \
     ninja && \
     ninja install
+
+# Install a specific version of OpenCV
+RUN pip install opencv-python-headless==4.5.3.56
 
 # Copy the requirements file
 COPY requirements.txt /app/
@@ -52,4 +59,3 @@ EXPOSE 5000
 
 # Run the application
 CMD ["python", "app.py"]
-
