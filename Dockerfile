@@ -25,6 +25,7 @@ RUN apt-get install -y --no-install-recommends \
     meson \
     ninja-build \
     flex \
+    bison \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Compile and install GStreamer
