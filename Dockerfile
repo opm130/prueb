@@ -10,6 +10,7 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && \
+    apt-get -y upgrade && \
     apt-get install -y --no-install-recommends \
     libglib2.0-0 \
     libsm6 \
