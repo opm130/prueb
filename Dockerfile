@@ -1,14 +1,9 @@
-# Use the official Debian image from the Docker Hub
-FROM debian:buster-slim
+# Use the official Python image from the Docker Hub
+FROM python:3.9-buster
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Install Python
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    ln -s /usr/bin/python3 /usr/bin/python
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Set the working directory
 WORKDIR /app
