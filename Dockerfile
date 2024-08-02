@@ -41,8 +41,9 @@ RUN wget https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz
     ninja && \
     ninja install
 
-# Install a specific version of OpenCV and NumPy
-RUN pip install opencv-python-headless==4.5.3.56 numpy==1.21.6
+# Install specific versions of OpenCV and NumPy
+RUN pip install numpy==1.21.6
+RUN pip install opencv-python-headless==4.5.3.56
 
 # Copy the requirements file
 COPY requirements.txt /app/
