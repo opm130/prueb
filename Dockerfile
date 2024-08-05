@@ -7,7 +7,7 @@ WORKDIR /app
 # Copia el archivo de requirements al contenedor
 COPY requirements.txt /app/
 
-# Actualiza pip e instala las dependencias del sistema
+# Instala las dependencias del sistema
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
