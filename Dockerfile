@@ -23,7 +23,7 @@ RUN apt-get update && \
 # Instala pip y actualiza
 RUN pip install --upgrade pip
 
-# Crea un entorno virtual y activa el entorno virtual e instala las dependencias
+# Crea un entorno virtual, activa el entorno virtual e instala las dependencias
 RUN python -m venv /opt/venv && \
     . /opt/venv/bin/activate && \
     pip install -r requirements.txt
