@@ -11,11 +11,16 @@ COPY requirements.txt /app/
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
+    libgl1-mesa-glx \
     libglib2.0-dev \
     libsm6 \
     libxext6 \
     libxrender-dev && \
-    pip install --upgrade pip
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Instala pip y actualiza
+RUN pip install --upgrade pip
 
 # Crea un entorno virtual y activa el entorno virtual e instala las dependencias
 RUN python -m venv /opt/venv && \
