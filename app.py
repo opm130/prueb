@@ -51,7 +51,7 @@ import os
 app = Flask(__name__)
 
 # Cargar el modelo YOLO
-model = YOLO("best1.pt")
+model = YOLO('best1.pt')
 
 @app.route('/predict', methods=['POST'])
 def predict():
