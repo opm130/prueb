@@ -15,7 +15,8 @@ RUN apt-get update && \
     libglib2.0-dev \
     libsm6 \
     libxext6 \
-    libxrender-dev && \
+    libxrender-dev \
+    git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
